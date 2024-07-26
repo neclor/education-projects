@@ -1,9 +1,8 @@
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
-#include <windows.h>
+
 
 #define FIELD_POSITION_X 1
 #define FIELD_POSITION_Y 1

@@ -5,7 +5,7 @@ typedef struct DynamicArray DynamicArray;
 
 DynamicArray* DynamicArrayCreate();
 
-int DynamicArraySize(DynamicArray* dynamicArray);
+size_t DynamicArraySize(DynamicArray* dynamicArray);
 
 int DynamicArrayGetAt(DynamicArray* dynamicArray, size_t index);
 

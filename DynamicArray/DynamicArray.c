@@ -11,7 +11,7 @@ struct DynamicArray {
 DynamicArray* DynamicArrayCreate() {
     DynamicArray* dynamicArray = malloc(sizeof(DynamicArray));
     if (!dynamicArray) {
-        printf("ERROR: Failed to allocate memory\n");
+        fprintf(stderr, "ERROR: Failed to allocate memory\n");
         exit(1);
     }
     dynamicArray->array = NULL;
@@ -22,23 +22,23 @@ DynamicArray* DynamicArrayCreate() {
 static void allocateAdditionalMemory(DynamicArray* dynamicArray) {
     int* array = (int*)realloc((void*)(dynamicArray->array), (dynamicArray->size + 1) * sizeof(int));
     if (!array) {
-        printf("ERROR: Failed to allocate memory\n");
+        fprintf(stderr, "ERROR: Failed to allocate memory\n");
         exit(1);
     }
     dynamicArray->array = array;
     dynamicArray->size++;
 }
 
-int DynamicArraySize(DynamicArray* dynamicArray) {
-    return dynamicArray->size;
+size_t DynamicArraySize(DynamicArray* dynamicArray) {
+	return dynamicArray->size;
 }
 
 int DynamicArrayGetAt(DynamicArray* dynamicArray, size_t index) {
-    if (index >= dynamicArray->size) {
-        printf("ERROR: index out of range\n");
-        exit(1);
-    }
-    return dynamicArray->array[index];
+	if (index >= dynamicArray->size) {
+        fprintf(stderr, "ERROR: index out of range\n");
+		exit(1);
+	}
+	return dynamicArray->array[index];
 }
 
 ptrdiff_t DynamicArrayFind(DynamicArray* dynamicArray, int element) {
@@ -52,7 +52,7 @@ ptrdiff_t DynamicArrayFind(DynamicArray* dynamicArray, int element) {
 
 void DynamicArrayInsert(DynamicArray* dynamicArray, int element, size_t index) {
     if (index > dynamicArray->size) {
-        printf("ERROR: index out of range\n");
+        fprintf(stderr, "ERROR: index out of range\n");
         exit(1);
     }
     allocateAdditionalMemory(dynamicArray);
@@ -76,7 +76,7 @@ void DynamicArrayAddArray(DynamicArray* dynamicArray, int* array, size_t arraySi
 
 void DynamicArrayRemoveAt(DynamicArray* dynamicArray, size_t index) {
     if (index >= dynamicArray->size) {
-        printf("ERROR: removing non existing element\n");
+        fprintf(stderr, "ERROR: removing non existing element\n");
         exit(1);
     }
     size_t count = index;
@@ -118,16 +118,17 @@ void DynamicArrayBSort(DynamicArray* dynamicArray) {
 }
 
 static void quickSort(DynamicArray* dynamicArray, ptrdiff_t lowIndex, ptrdiff_t highIndex) {
+    int* array = dynamicArray->array;
     if (lowIndex < highIndex) {
         ptrdiff_t indexLowElement = lowIndex;
         size_t pivotIndex = highIndex;
-        for (size_t i = lowIndex; i < highIndex; i++) {
-            if (dynamicArray->array[i] < dynamicArray->array[pivotIndex]) {
-                swapElements(&dynamicArray->array[i], &dynamicArray->array[indexLowElement]);
+        for (ptrdiff_t i = lowIndex; i < highIndex; i++) {
+            if (array[i] < array[pivotIndex]) {
+                swapElements(&array[i], &array[indexLowElement]);
                 indexLowElement++;
             }
         }
-        swapElements(&dynamicArray->array[indexLowElement], &dynamicArray->array[pivotIndex]);
+        swapElements(&array[indexLowElement], &array[pivotIndex]);
         quickSort(dynamicArray, lowIndex, indexLowElement - 1);
         quickSort(dynamicArray, indexLowElement + 1, highIndex);
     } 
