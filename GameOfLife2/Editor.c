@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 
-#include "GameOfLife.h"
+#include "GameOfLife2.h"
 
 #define K_ENTER 13
 #define K_SPACE ' '
@@ -30,6 +30,9 @@ void editorLoop(Field* field) {
             size_t cellIndex = y * (size_t)width + x;
             if (data[cellIndex] == 0) {
                 data[cellIndex] = 1;
+            }
+            else if (data[cellIndex] == 1) {
+                data[cellIndex] = 2;
             }
             else {
                 data[cellIndex] = 0;

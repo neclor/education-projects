@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "GameOfLife.h"
+#include "GameOfLife2.h"
 
 #define DEAD_CHAR '.'
-#define LIVE_CHAR '#'
+#define ADULT_CHAR '#'
+#define CHILD_CHAR '+'
+
 
 unsigned char* screenData = NULL;
 
@@ -47,8 +49,11 @@ void drawField(Field* field) {
             if (data[dataIndex] == 0) {
                 screenData[screenIndex] = DEAD_CHAR;
             }
+            else if (data[dataIndex] == 1) {
+                screenData[screenIndex] = ADULT_CHAR;
+            }
             else {
-                screenData[screenIndex] = LIVE_CHAR;
+                screenData[screenIndex] = CHILD_CHAR;
             }
         }
     }

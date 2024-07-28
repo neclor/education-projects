@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <time.h>
 
-#include "GameOfLife.h"
+#include "GameOfLife2.h"
 
 #define K_ENTER 13
 #define K_SPACE ' '
@@ -38,22 +38,47 @@ void updateField(Field* field) {
 
     for (unsigned int x = 0; x < width; x++) {
         for (unsigned int y = 0; y < height; y++) {
-            unsigned int neighborsNumber = 0;
+            unsigned int adultsNumber = 0, childrenNumber = 0;
             for (int relativeX = -1; relativeX < 2; relativeX++) {
                 unsigned int neighborX = (x + relativeX + width) % width;
                 for (int relativeY = -1; relativeY < 2; relativeY++) {
                     unsigned int neighborY = (y + relativeY + height) % height;
-                    neighborsNumber += dataCopy[neighborY * (size_t)width + neighborX];
+                    size_t dataIndex = neighborY * (size_t)width + neighborX;
+                    switch(dataCopy[dataIndex]) {
+                        case 1:
+                            adultsNumber++;
+                            break;
+                        case 2:
+                            childrenNumber++;
+                            break;
+                    }
                 }
             }
-            size_t cellIndex = y * (size_t)width + x;
-            neighborsNumber -= dataCopy[cellIndex];
 
-            if (neighborsNumber < 2 || neighborsNumber > 3) {
+            size_t cellIndex = y * (size_t)width + x;
+
+            if (dataCopy[cellIndex] == 1) {
+                adultsNumber--;
+            }
+            else if (dataCopy[cellIndex] == 2) {
+                childrenNumber--;
+            }
+
+            if (adultsNumber + childrenNumber > 3) {
                 data[cellIndex] = 0;
             }
-            else if (neighborsNumber == 3) {
-                data[cellIndex] = 1;
+            else if (dataCopy[cellIndex] == 0 && adultsNumber > 1) {
+                data[cellIndex] = 2;
+            }
+            else if (dataCopy[cellIndex] == 2 && adultsNumber > 0) {
+                if (adultsNumber > 0) {
+                    data[cellIndex] = 1;
+                }
+            }
+            else if (dataCopy[cellIndex] == 1 && adultsNumber > 0 && childrenNumber == 0) {
+            }
+            else {
+                data[cellIndex] = 0;
             }
         }
     }
