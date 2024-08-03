@@ -1,2 +1,1 @@
-# education-projects-c
- 
+# education-projects
