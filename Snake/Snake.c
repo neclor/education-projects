@@ -169,7 +169,6 @@ void init() {
 }
 
 int main() {
-    int a = 0;
     init();
     while (1) {
         restart();
